@@ -51,6 +51,7 @@ body {
 #clear {
     background: #ff6b6b;
     color: white;
+    grid-column: span 2;
 }
 
 #clear:hover {
@@ -65,4 +66,8 @@ body {
 
 #equals:hover {
     background: #388e3c;
+}
+
+#zero {
+    grid-column: span 2;
 }
