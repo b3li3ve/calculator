@@ -1,66 +1,89 @@
-let x
-let y
-let opperator
+const display = document.querySelector("#display");
+const numberButtons = document.querySelectorAll(".number");
+const operatorButtons = document.querySelectorAll(".operator");
+const clearButton = document.querySelector("#clear");
+const equalsButton = document.querySelector("#equals");
+
+let currentInput = "";
+let firstOperand = null;
+let secondOperand = null;
+let currentOperator = null;
+
+numberButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        currentInput += button.textContent;
+        setDisplayValue(currentInput);
+    });
+});
+
+operatorButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        if (firstOperand === null) {
+            firstOperand = parseFloat(currentInput);
+        } else if (currentOperator) {
+            secondOperand = parseFloat(currentInput);
+            firstOperand = operate(firstOperand, secondOperand, currentOperator);
+            setDisplayValue(firstOperand);
+        }
+        currentOperator = button.textContent;
+        currentInput = "";
+    });
+});
+
+clearButton.addEventListener("click", () => {
+    currentInput = "";
+    firstOperand = null;
+    secondOperand = null;
+    currentOperator = null;
+    setDisplayValue("");
+});
+
+equalsButton.addEventListener("click", () => {
+    if (firstOperand !== null && currentOperator !== null) {
+        secondOperand = parseFloat(currentInput);
+        const result = operate(firstOperand, secondOperand, currentOperator);
+        setDisplayValue(result);
+        firstOperand = result;
+        currentInput = "";
+        currentOperator = null;
+    }
+});
+
+function getDisplayValue() {
+    return display.textContent;
+}
+
+function setDisplayValue(value) {
+    display.textContent = value;
+}
 
 function minus(x, y) {
-    x = x - y
-    return x
+    return x - y;
 }
 
 function plus(x, y) {
-    x = x + y
-    return x
+    return x + y;
 }
 
 function times(x, y) {
-    x = x * y
-    return x
+    return x * y;
 }
 
 function divise(x, y) {
-    x = x / y
-    return x
+    return x / y;
 }
 
-function opperate(x, y, opperate) {
-    if (opperate = "-")
-        minus(x, y)
-    else if (opperate = "+")
-        plus(x, y)
-    else if (opperate = "*")
-        times(x, y)
-    else if (opperate = "/")
-        divise(x, y)
-}
-
-/* const subtract = function(array) {
-	const differenceOfAll = array.reduce((total, currentItem) => {return total - currentItem}, 0)
-  return differenceOfAll
-};
-
-const add = function(array) {
-	const sumOfAll = array.reduce((total, currentItem) => {return total + currentItem}, 0)
-  return sumOfAll
-};
-
-const multiply = function(array) {
-	const productOfAll = array.reduce((total, currentItem) => {return total * currentItem}, 1)
-  return productOfAll
-};
-
-const divid = function(array) {
-	const quotientOfAll = array.reduce((total, currentItem) => {return total / currentItem}, 1)
-  return quotientOfAll
-};
-
-const power = function(x, y) {
-	return x**y
-};
-
-const factorial = function(num) {
-    if (num === 0) {
-      return 1;
+function operate(x, y, operator) {
+    switch (operator) {
+        case "-":
+            return minus(x, y);
+        case "+":
+            return plus(x, y);
+        case "*":
+            return times(x, y);
+        case "/":
+            return divise(x, y);
+        default:
+            return null;
     }
-    const numbers = Array.from({ length: num }, (_, i) => i + 1);
-    return numbers.reduce((total, currentItem) => total * currentItem, 1);
-  };*/
+}
